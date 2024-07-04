@@ -2,7 +2,7 @@ data {
   int<lower=0> n; // liczba obserwacji
   int<lower=0> k_production; // liczba predyktorów dla produkcji
   matrix[n, k_production] X_production; // macierz z danymi wejściowymi (temperatura, nasłonecznienie, zachmurzenie, długość dnia)
-  vector[n] production_energii; // wektor z danymi rzeczywistymi dla produkcji energii
+  vector[n] energy_production; // wektor z danymi rzeczywistymi dla produkcji energii
 }
 
 parameters {
@@ -27,7 +27,7 @@ model {
     sigma_production ~ exponential(15);
 
     // Likelihood
-    production_energii ~ normal(mu_production, sigma_production);
+    energy_production ~ normal(mu_production, sigma_production);
 }
 
 generated quantities {
@@ -36,7 +36,7 @@ generated quantities {
 
   // Predykcja dla danych testowych
   for (i in 1:n) {
-    log_lik[i] = normal_lpdf(production_energii[i] | mu_production[i], sigma_production);
+    log_lik[i] = normal_lpdf(energy_production[i] | mu_production[i], sigma_production);
     y_production_pred_test[i] = normal_rng(mu_production[i], sigma_production);
   }
 }

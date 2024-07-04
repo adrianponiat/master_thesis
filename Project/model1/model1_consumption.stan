@@ -2,7 +2,7 @@ data {
   int<lower=0> n; // liczba obserwacji
   int<lower=0> k_consumption; // liczba predyktorów dla zużycia
   matrix[n, k_consumption] X_consumption; // macierz z danymi wejściowymi (dzień tygodnia (BOOL), temperatura)
-  vector[n] consumption_energii; // wektor z danymi rzeczywistymi dla zużycia energii
+  vector[n] energy_consumption; // wektor z danymi rzeczywistymi dla zużycia energii
 }
 
 parameters {
@@ -26,7 +26,7 @@ model {
     sigma_consumption ~ exponential(0.75);
 
     // Likelihood
-    consumption_energii ~ normal(mu_consumption, sigma_consumption);
+    energy_consumption ~ normal(mu_consumption, sigma_consumption);
 }
 
 generated quantities {
